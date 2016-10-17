@@ -6,17 +6,11 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>matthew-spring-practice</artifactId>
+    <artifactId>matthew-javaBase-practice</artifactId>
     <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>matthew-spring-practice Maven Webapp</name>
+    <name>matthew-javaBase-practice Maven Webapp</name>
     <url>http://maven.apache.org</url>
-
-
-
-    <properties>
-        <spring.version>4.2.1.RELEASE</spring.version>
-    </properties>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -24,15 +18,18 @@
             <version>3.8.1</version>
             <scope>test</scope>
         </dependency>
-        <!--spring 相关配置-->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-
     </dependencies>
     <build>
-        <finalName>matthew-spring-practice</finalName>
+        <finalName>matthew-javaBase-practice</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 </project>
