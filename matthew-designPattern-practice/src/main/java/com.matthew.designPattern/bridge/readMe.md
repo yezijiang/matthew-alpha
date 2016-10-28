@@ -21,7 +21,6 @@
 图中Image充当抽象类，其子类JPGImage/PNGImage充当扩充抽象类，ImageImp充当实现类接口，其子类WIndowsImp、LinuxMp充当具体实现接口
 
 ##适配器和桥接模式的联用
-
 在软件开发中，适配器模式通常可以和桥接模式联合使用。适配器可以解决两个已有接口不能兼容的问题。或者用于现有系统和第三方产品功能的集成。桥接模式和适配器模式用于设计的不同阶段，桥接模式用于系统的初步设计，对于存在两个独立变化维度的类可以将其分为抽象化和实现化两个角色，而再设计完成之后，发现系统和已有类无法协同工作时，可以采用适配器模式。有时在设计初期也需要考虑适配器模式，特别是那些涉及到大量第三方应用接口的情况。
 ![桥接模式与适配器模式联用示意图](file:///F:\yaoyaohao\workspaceIdea\matthew-alpha\matthew-designPattern-practice\src\main\webapp\webstatic\images\bridge_003.gif)
 
