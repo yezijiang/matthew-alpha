@@ -13,8 +13,16 @@
         <module>matthew-javaBase-practice</module>
         <module>matthew-designPattern-practice</module>
     </modules>
-
+    <properties>
+        <junit.version>4.11</junit.version>
+    </properties>
     <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
