@@ -11,8 +11,10 @@ public class RpcProvider{
     public static void main(String[] args) {
         HelloService service = new HelloServiceImpl();
         try {
-            RpcFramework.export(service,1234);
+            RpcFramework.export(service,8099);
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

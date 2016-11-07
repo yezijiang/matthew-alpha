@@ -1,5 +1,6 @@
 package com.matthew.javabase.rpc.nio;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -16,7 +17,9 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -25,13 +28,21 @@ import java.util.Set;
  * TIME: 2016-10-28 16:43
  */
 public class RpcFramework {
-    public static void export(final Object service,int port) throws IOException {
+    //模拟bean工厂，这部分可以通过结合spring实现，也可以自定义bean初始化工厂
+    private static Map<String, Object> beanCache = new HashMap<String, Object>();
+
+    static {
+        HelloService helloService = new HelloServiceImpl();
+        beanCache.put(helloService.getClass().getInterfaces()[0].getName(), helloService);
+    }
+
+    public static void export(final Object service,int port) throws Exception {
         if(service == null)
             throw new IllegalArgumentException("service instance is null");
         if(port<=0||port>65535)
             throw new IllegalArgumentException("Invalid port "+port);
+        beanCache.put(service.getClass().getInterfaces()[0].getName(), service);
         System.out.println("Export service "+service.getClass().getName()+" on port "+port);
-        ByteBuffer buffer = ByteBuffer.allocate(1024);
         //通过静态工厂创建一个选择器，
         Selector selector = Selector.open();
         //通过静态广场创建服务端的channel
@@ -39,71 +50,89 @@ public class RpcFramework {
         //设置为非阻塞方式
         ssc.configureBlocking(false);
         //绑定一个端口
-        ssc.bind(new InetSocketAddress(port));
+        ssc.socket().bind(new InetSocketAddress(port));
         //将这个通信信道注册到选择器上。
         ssc.register(selector,SelectionKey.OP_ACCEPT);
-        while(true){
-            Set selectedKeys = selector.selectedKeys();
-            Iterator it = selectedKeys.iterator();
-            while (it.hasNext()){
-                SelectionKey selectionKey = (SelectionKey) it.next();
-                if((selectionKey.readyOps() & SelectionKey.OP_ACCEPT)==SelectionKey.OP_ACCEPT){
-                    ServerSocketChannel serverSocketChannel = (ServerSocketChannel) selectionKey.channel();
-                    SocketChannel sc = serverSocketChannel.accept();//接受服务端的请求
-                    sc.configureBlocking(false);
-                    sc.register(selector,SelectionKey.OP_READ);
-                    it.remove();
-                }else if((selectionKey.readyOps() & SelectionKey.OP_READ)==SelectionKey.OP_READ){
-                    SocketChannel sc = (SocketChannel) selectionKey.channel();
-                    while (true){
-                        buffer.clear();
-                        int n = sc.read(buffer);
-                        if(n<=0) break;
-                        buffer.flip();
-
-
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    ObjectInputStream objectInput = new ObjectInputStream(socket.getInputStream());
-                                    try {
-                                        String methodName = objectInput.readUTF();
-                                        Class<?>[] parameterTypes = (Class<?>[])objectInput.readObject();
-                                        Object[] arguments = (Object[])objectInput.readObject();
-                                        ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
-                                        Method method = null;
-                                        try {
-                                            method = service.getClass().getMethod(methodName, parameterTypes);
-                                            Object result = method.invoke(service, arguments);
-                                            output.writeObject(result);
-                                        } catch (NoSuchMethodException e) {
-                                            e.printStackTrace();
-                                        } catch (InvocationTargetException e) {
-                                            e.printStackTrace();
-                                        } catch (IllegalAccessException e) {
-                                            e.printStackTrace();
-                                        }
-                                    } catch (ClassNotFoundException e) {
-                                        e.printStackTrace();
-                                    }
-
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }).start();
-
-
-                    }
+        System.out.println("--->>监听服务启动，端口号："+port+".");
+        while (true) {
+            int n = selector.select();
+            if (n == 0)
+                continue;
+            Iterator<SelectionKey> iter = selector.selectedKeys().iterator();
+            while (iter.hasNext()) {
+                SelectionKey key = iter.next();
+                if (key.isAcceptable()) {
+                    ServerSocketChannel sc = (ServerSocketChannel) key.channel();
+                    execute(ssc);
                 }
+                iter.remove();
             }
-
-
-
-
         }
     }
+
+    /**
+     * 当ServerSocket接收到ACCEPT ready事件后，获取请求数据，调用相关服务接口并通过socket发送返回结果
+     *
+     * @param serverSocketChannel
+     * @throws Exception
+     */
+    private static void execute(ServerSocketChannel serverSocketChannel) throws Exception {
+        SocketChannel socketChannel = null;
+        try {
+            socketChannel = serverSocketChannel.accept();
+            RpcTransactionBody rpcData = receiveData(socketChannel);
+            System.out.println("---->>接收到请求 : " + rpcData);
+            //
+            Object target = beanCache.get(rpcData.getInterfaceName());
+            if(target != null) {
+                Class<?> clazz = Class.forName(rpcData.getInterfaceName());
+                Method method = clazz.getMethod(rpcData.getMethodName(), rpcData.getParameterTypes());
+                Object result = method.invoke(target, rpcData.getParameterValues());
+                //
+                sendData(socketChannel, result);
+            }
+        } finally {
+            try {
+                if (socketChannel != null)
+                    socketChannel.close();
+            } catch (Exception e) {
+            }
+        }
+    }
+    /**
+     * 处理接受请求
+     * @param socketChannel
+     * @return
+     */
+    private static RpcTransactionBody receiveData(SocketChannel socketChannel){
+        RpcTransactionBody reqObj = null;
+        ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+        ByteBuffer buffer = ByteBuffer.allocate(1024);
+        try {
+            byte[] bytes;
+            int size=0;
+            while((size = socketChannel.read(buffer))>=0){
+                buffer.flip();
+                bytes = new byte[size];
+                buffer.get(bytes);
+                byteStream.write(bytes);
+                buffer.clear();
+            }
+            bytes = byteStream.toByteArray();
+            Object obj = SerializableUtil.deserialize(bytes);
+            reqObj = (RpcTransactionBody) obj;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return reqObj;
+    }
+
+    public static void sendData(SocketChannel socketChannel,Object respObj) throws IOException {
+        byte[] bytes = SerializableUtil.serialize(respObj);
+        ByteBuffer buffer = ByteBuffer.wrap(bytes);
+        socketChannel.write(buffer);
+    }
+
     public static <T>T refer(final Class<T> interfaceClass,final String host,final int port){
         if(interfaceClass ==null)
             throw new IllegalArgumentException("interfaceClass is null");
@@ -114,33 +143,57 @@ public class RpcFramework {
         if(port <= 0|| port > 65535)
             throw new IllegalArgumentException("Invalid port "+port);
         System.out.println("Get remote service "+ interfaceClass.getName() + "from server "+host+" : "+port);
+
         return(T) Proxy.newProxyInstance(interfaceClass.getClassLoader(), new Class<?>[]{interfaceClass}, new InvocationHandler() {
             @Override
             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-                Socket socket = new Socket(host,port);
+                InetSocketAddress address= new InetSocketAddress(host,port);
+                SocketChannel socketChannel = SocketChannel.open();
                 try {
-                    ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
-                    try {
-                        outputStream.writeUTF(method.getName());
-                        outputStream.writeObject(method.getParameterTypes());
-                        outputStream.writeObject(args);
-                        ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
-                        try {
-                            Object result = input.readObject();
-                            if (result instanceof Throwable) {
-                                throw (Throwable) result;
-                            }
-                            return result;
-                        } finally {
-                            input.close();
-                        }
-                    } finally {
-                        outputStream.close();
-                    }
+                    socketChannel.connect(address);
+                    RpcTransactionBody rpcTransactionBody = new RpcTransactionBody();
+                    rpcTransactionBody.setInterfaceName(interfaceClass.getName());
+                    rpcTransactionBody.setMethodName(method.getName());
+                    rpcTransactionBody.setParameterTypes(method.getParameterTypes());
+                    rpcTransactionBody.setParameterValues(args);
+                    //写数据
+                    ByteBuffer buffer = ByteBuffer.wrap(SerializableUtil.serialize(rpcTransactionBody));
+                    socketChannel.write(buffer);
+                    socketChannel.socket().shutdownOutput();
+                    //取结果
+                    Object result = receiveObject(socketChannel);
+                    return result;
+                }catch (Exception e) {
+                    e.printStackTrace();
                 }finally {
-                    socket.close();
+                    socketChannel.close();
                 }
+                return null;
             }
         });
+    }
+    private static Object receiveObject(SocketChannel sc) throws Exception {
+        Object resultObj = null;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        try {
+            ByteBuffer buffer = ByteBuffer.allocateDirect(1024);
+            byte[] bytes;
+            int count = 0;
+            while ((count = sc.read(buffer)) >= 0) {
+                buffer.flip();
+                bytes = new byte[count];
+                buffer.get(bytes);
+                baos.write(bytes);
+                buffer.clear();
+            }
+            bytes = baos.toByteArray();
+            resultObj = SerializableUtil.deserialize(bytes);
+            sc.socket().shutdownInput();
+        } finally {
+            try {
+                baos.close();
+            } catch(Exception ex) {}
+        }
+        return resultObj;
     }
 }
