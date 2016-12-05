@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<config>
+    <imageType>com.matthew.designPattern.bridge.JPGImage</imageType>
+    <operationSystem>com.matthew.designPattern.bridge.WindowsImp</operationSystem>
+</config>
