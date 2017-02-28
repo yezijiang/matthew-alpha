@@ -1,0 +1,21 @@
+<uipRequest>
+	<uipHead>
+		<uid>b8bbe11ffbb64102a00a3d9f5c622f00</uid>
+		<appCode>SCS</appCode>
+		<uipAuthId>!@#456</uipAuthId>
+		<serviceCode>MemberService</serviceCode>
+		<operation>mQueryUserInfo</operation>
+		<b2bReqTime>20151121172231110</b2bReqTime>
+		<uipReqTime></uipReqTime>
+		<respTime></respTime>
+		<fromIp></fromIp>
+		<validType>001</validType>
+		<terminalType>001</terminalType>
+		<remark1></remark1>
+		<remark2></remark2>
+		<remark3></remark3>
+	</uipHead>
+	<uipBody>
+		<userId>3348</userId>
+	</uipBody>
+</uipRequest>
