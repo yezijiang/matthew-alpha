@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--构造器注入 构造器注入-->
+    <bean id="hello3" class="com.matthew.spring.chapter3.HelloImpl3">
+        <constructor-arg type="java.lang.String" value="hello world!"/>
+        <constructor-arg type="int" value="7017"/>
+    </bean>
+    <!--构造器注入 实例工厂注入-->
+    <bean id="hello3Factory" class="com.matthew.spring.chapter3.DependencyInjectByInstance"/>
+    <bean id="factoryBeanHello3" factory-bean="hello3Factory" factory-method="getHelloApiInstance">
+        <constructor-arg index="0" value="你好世界"/>
+        <constructor-arg index="1" value="100"/>
+    </bean>
+    <!--setter 注入-->
+    <bean id="hello4" class="com.matthew.spring.chapter3.HelloImpl4">
+        <property name="message" value="你好世界4"/>
+        <property name="index" value="104"/>
+    </bean>
+
+    <!-- 注入常量-->
+    <bean id="listBean" class="com.matthew.spring.chapter3.ListBean">
+        <property name="values">
+            <list>
+                <value>hello</value>
+                <value>world</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="mapBean" class="com.matthew.spring.chapter3.MapBean">
+        <property name="keyValues">
+            <map key-type="java.lang.String" value-type="java.lang.String">
+                <entry key="word" value="hello world"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="propertiesBean" class="com.matthew.spring.chapter3.PropertiesBean">
+        <property name="values">
+            <props>
+                <prop key="word">hello world!properties</prop>
+            </props>
+        </property>
+    </bean>
+    <!--使用setter方式注入bean-->
+    <bean id="helloApiDecorator1" class="com.matthew.spring.chapter3.HelloApiDecorator">
+        <property name="helloApi" ref="hello4"></property>
+    </bean>
+    <!--使用构造器注入-->
+    <bean id="helloApiDecorator2" class="com.matthew.spring.chapter3.HelloApiDecorator">
+        <constructor-arg index="0" ref="helloApiDecorator1"/>
+    </bean>
+    <!--循环注入-->
+    <bean id="circleA" class="com.matthew.spring.chapter3.CircleA">
+        <property name="circleB" ref="circleB"/>
+    </bean>
+    <bean id="circleB" class="com.matthew.spring.chapter3.CircleB">
+        <property name="circleC" ref="circleC"/>
+    </bean>
+    <bean id="circleC" class="com.matthew.spring.chapter3.CircleC">
+        <property name="circleA" ref="circleA"/>
+    </bean>
+</beans>
