@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<beans>
+    <bean id="circle"  class="com.yaoyaohao.designPattern.factory.simpleFactory.Circle"/>
+    <bean id="square" class="com.yaoyaohao.designPattern.factory.simpleFactory.Square"/>
+    <bean id="triangle" class="com.yaoyaohao.designPattern.factory.simpleFactory.Triangle"/>
+</beans>
