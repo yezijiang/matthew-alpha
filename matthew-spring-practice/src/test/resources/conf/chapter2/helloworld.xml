@@ -7,4 +7,9 @@
         <constructor-arg index="0" value="hello world!"/>
     </bean>
 
+    <bean id="car" class="com.matthew.spring.chapter2.Car" init-method="myInit"
+          destroy-method="myDestroy">
+        <property name="brand" value="奥迪A4"/>
+        <property name="maxSpeed" value="230"/>
+    </bean>
 </beans>

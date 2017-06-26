@@ -1,7 +1,5 @@
 package com.matthew.spring;
 
-import java.util.function.BooleanSupplier;
-
 /**
  * Created with IntelliJ IDEA
  * User: maxing
@@ -9,11 +7,11 @@ import java.util.function.BooleanSupplier;
  */
 public class BaiduInterview {
     public static void main(String[] args) {
-        if (((BooleanSupplier)(() -> { System.out.print("a"); return false; })).getAsBoolean()) {
-            System.out.print("a");
-        } else {
-            System.out.print("b");
-        }
+//        if (((BooleanSupplier)(() -> { System.out.print("a"); return false; })).getAsBoolean()) {
+//            System.out.print("a");
+//        } else {
+//            System.out.print("b");
+//        }
     }
 
 }

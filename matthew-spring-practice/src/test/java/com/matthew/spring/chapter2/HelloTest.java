@@ -1,8 +1,15 @@
 package com.matthew.spring.chapter2;
 
 import org.junit.Test;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
+
+import java.io.IOException;
 
 /**
  * Created with IntelliJ IDEA
@@ -27,6 +34,15 @@ public class HelloTest {
         HelloApi helloApi2 = context.getBean("hello2", HelloApi.class);
         helloApi2.sayHello();
     }
+    @Test
+    public void testXmlBeanFactory() throws IOException {
+        ResourcePatternResolver rps = new PathMatchingResourcePatternResolver();
+        Resource resource = rps.getResource("classpath:conf/chapter2/helloworld.xml");
+        BeanFactory bf = new XmlBeanFactory(resource);
+        System.out.println("init BeanFacoty");
 
+        HelloApi helloApi = bf.getBean("hello",HelloApi.class);
+        helloApi.sayHello();
 
+    }
 }

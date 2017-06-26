@@ -18,7 +18,6 @@ public class HelloApiDecorator implements HelloApi {
         this.helloApi = helloApi;
     }
 
-    @Override
     public void sayHello() {
         System.out.println("装饰一下。");
         helloApi.sayHello();
