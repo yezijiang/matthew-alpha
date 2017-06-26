@@ -1,6 +1,6 @@
-package com.matthew.javabase.lang.util;
+package com.matthew.javabase.lang.collection;
 
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import java.util.*;
 
@@ -52,6 +52,25 @@ public class TestCollection {
         transform(64);
         transform(64+32+16);
         transform(1+2+4+8);
+
+int i= 15;
+        System.out.println(i >>> 1);
+        System.out.println(i >>  2);
+        System.out.println(i >>  4);
+        System.out.println(i >>  8);
+        System.out.println(i >>  16);
+
+        i |= (i >>  1);
+        System.out.println(i);
+        i |= (i >>  2);
+        System.out.println(i);
+        i |= (i >>  4);
+        System.out.println(i);
+        i |= (i >>  8);
+        System.out.println(i);
+        i |= (i >> 16);
+        System.out.println(i);
+        System.out.println(i - (i >>> 1));
     }
     static void transform(int h){
         System.out.println(Integer.toBinaryString(h)+"-->"+Integer.toBinaryString(hash(h)));
