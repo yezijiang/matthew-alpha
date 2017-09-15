@@ -33,6 +33,8 @@ public class HelloTest {
         helloApi.sayHello();
         HelloApi helloApi2 = context.getBean("hello2", HelloApi.class);
         helloApi2.sayHello();
+        Car myNewCar = context.getBean("car",Car.class);
+        myNewCar.introduce();
     }
     @Test
     public void testXmlBeanFactory() throws IOException {
@@ -40,9 +42,8 @@ public class HelloTest {
         Resource resource = rps.getResource("classpath:conf/chapter2/helloworld.xml");
         BeanFactory bf = new XmlBeanFactory(resource);
         System.out.println("init BeanFacoty");
-
-        HelloApi helloApi = bf.getBean("hello",HelloApi.class);
-        helloApi.sayHello();
+        Car myNewCar = bf.getBean("car",Car.class);
+        myNewCar.introduce();
 
     }
 }

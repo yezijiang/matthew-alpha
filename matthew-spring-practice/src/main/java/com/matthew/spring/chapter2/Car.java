@@ -13,12 +13,13 @@ public class Car implements BeanFactoryAware,BeanNameAware,InitializingBean,Disp
     private String brand;
     private String color;
     private int maxSpeed;
+    private String iDCode;
 
     private BeanFactory beanFactory;
     private String beanName;
 
     public Car(){
-        System.out.println("调用setBrand()设置属性。");
+        System.out.println("Car初始化");
     }
 
     public void setBrand(String brand){
@@ -28,6 +29,7 @@ public class Car implements BeanFactoryAware,BeanNameAware,InitializingBean,Disp
     public void introduce(){
         System.out.println("brand='" + brand + '\'' +
                 ", color='" + color + '\'' +
+                ", iDCode='" + iDCode + '\'' +
                 ", maxSpeed=" + maxSpeed );
     }
     //BeanFactoryAware接口方法
@@ -75,5 +77,7 @@ public class Car implements BeanFactoryAware,BeanNameAware,InitializingBean,Disp
         this.maxSpeed = maxSpeed;
     }
 
-
+    public void setIDCode(String iDCode) {
+        this.iDCode = iDCode;
+    }
 }

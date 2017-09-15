@@ -11,5 +11,6 @@
           destroy-method="myDestroy">
         <property name="brand" value="奥迪A4"/>
         <property name="maxSpeed" value="230"/>
+        <property name="iDCode" value="231"/>
     </bean>
 </beans>
