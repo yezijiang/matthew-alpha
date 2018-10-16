@@ -33,7 +33,13 @@ public class CyclicBarrierTest {
     }
     static class A implements Runnable{
         public void run() {
+
             System.out.println("事先执行的线程三 befor await");
+            try {
+                Thread.currentThread().sleep(1000l);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

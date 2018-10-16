@@ -46,7 +46,7 @@ public class TwinsLock implements Lock {
 
 
     public void lock() {
-        sync.tryAcquireShared(1);
+        sync.acquireShared(1);
     }
 
     public void lockInterruptibly() throws InterruptedException {
@@ -62,7 +62,7 @@ public class TwinsLock implements Lock {
     }
 
     public void unlock() {
-        sync.tryReleaseShared(1);
+        sync.releaseShared(1);
     }
 
     public Condition newCondition() {

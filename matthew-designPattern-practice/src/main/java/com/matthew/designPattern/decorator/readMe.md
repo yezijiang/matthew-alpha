@@ -25,7 +25,7 @@
 
 #### 透明装饰模式与半透明装饰模式
 装饰模式虽好但是存在一个问题，如果客户端希望单独调用具体装饰类新增的方法时存在一些问题。如下面的例子：
-![文件对象功能增加实例结构图](file:///F:\yaoyaohao\workspaceIdea\matthew-alpha\matthew-designPattern-practice\src\main\webapp\webstatic\images\decorator_002.gif)
+![文件对象功能增加实例结构图](file:///F:\yaoyaohao\workspaceIdea\matthew-alpha\matthew-designPattern-practice\src\main\webapp\webstatic\images\decorator_003.gif)
 代码片段如下：
 
     Document doc; //使用抽象构件类型定义 

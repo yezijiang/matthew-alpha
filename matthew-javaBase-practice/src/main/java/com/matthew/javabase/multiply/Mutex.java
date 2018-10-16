@@ -14,6 +14,7 @@ public class Mutex implements Lock {
     static class Sync extends AbstractQueuedSynchronizer{
 
 
+
         @Override
         protected boolean tryAcquire(int arg) {
             if(compareAndSetState(0,1)){
@@ -73,6 +74,23 @@ public class Mutex implements Lock {
     }
     public boolean hasQueuedThreads(){
         return sync.hasQueuedThreads();
+    }
+
+    public static void main(String[] args) {
+        final Mutex mutex = new Mutex();
+        Thread thread1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mutex.lock();
+                System.out.println("拿到了锁");
+            }
+        });
+        Thread thread2 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mutex.lock();
+            }
+        });
     }
 }
 

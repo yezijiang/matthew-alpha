@@ -34,5 +34,6 @@ public class LasySingleton {
     /**
      * 上面的double-check locking DCL不幸的是无论在优化型的编译器下还是在共享内存处理器中都不能有效的工作。
      * http://ifeve.com/doublecheckedlocking/
+     * 加volitile
      */
 }

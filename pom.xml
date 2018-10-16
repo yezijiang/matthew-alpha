@@ -12,6 +12,11 @@
         <module>matthew-spring-practice</module>
         <module>matthew-javaBase-practice</module>
         <module>matthew-designPattern-practice</module>
+        <module>matthew-changpu</module>
+        <module>matthew-algorithm-practice</module>
+        <module>matthew-capability-aop</module>
+        <module>mathew-springboot-practice</module>
+        <module>matthew-search-practice</module>
     </modules>
     <properties>
         <junit.version>4.11</junit.version>

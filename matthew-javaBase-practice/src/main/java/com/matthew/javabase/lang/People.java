@@ -13,8 +13,6 @@ public class People {
 	public int age=20;
 	public People(){
 		System.out.println("父类构造函数--开始");
-		System.out.println("打印"+((Lili)this).name);
-		System.out.println("打印"+((Lili)this).age);
 		System.out.println("父类构造函数--结束");
 	}
 	static{

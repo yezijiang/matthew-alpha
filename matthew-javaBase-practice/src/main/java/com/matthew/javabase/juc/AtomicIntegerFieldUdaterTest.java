@@ -12,7 +12,8 @@ public class AtomicIntegerFieldUdaterTest {
 
     public static void main(String[] args) {
         People xiaoma = new People(55,"xiaoMa");
+        System.out.println(peopleAtomicIntegerFieldUpdater.getAndIncrement(xiaoma));
         //xiaoma are getting fat
-        System.out.println(peopleAtomicIntegerFieldUpdater.addAndGet(xiaoma,3));
+        System.out.println(peopleAtomicIntegerFieldUpdater.get(xiaoma));
     }
 }
