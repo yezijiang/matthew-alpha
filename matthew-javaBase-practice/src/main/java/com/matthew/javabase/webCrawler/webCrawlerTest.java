@@ -1,5 +1,6 @@
 package com.matthew.javabase.webCrawler;
 
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -37,42 +38,18 @@ public class webCrawlerTest {
         }
     }
 
-    public static void main(String[] args) {
-        String html = "<html><head><title>Frist Page</title></head>" +
-                "<body><p>a Html wait to be Prased doc</p></body></html>";
-        Document doc = Jsoup.parse(html,"www.baidu.com");
-       // System.out.println(doc);
-        String htmlPart = "<p>this is html Part</p>";
-        Document docPart  = Jsoup.parseBodyFragment(htmlPart);
-        System.out.println(docPart);
-
+    public static void main(String[] args) throws IOException {
+        //webCrawlerTest test = new webCrawlerTest();
+        //test.getDatasByCssQuery();
+        String url = " http://www.ehaoyao.com";
+        Document doc = null;
+        Connection conn = Jsoup.connect(url);
+        conn.header(
+                "User-Agent",
+                "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
         try {
-            Document docUrl = Jsoup.connect("http://www.baidu.com")
-                    .userAgent("Mozilla")
-                    .cookie("auth", "token")
-                    .timeout(3000)
-                    .get();
-            System.out.println(docUrl);
-            File input = new File("/tmp/input.html");
-            Document docFile = Jsoup.parse(input, "UTF-8", "http://example.com/");
-
-
-
-            Document doc2 = Jsoup.connect("http://www.open-open.com").get();
-
-            Element link = doc2.select("a").first();
-            System.out.println(link);
-            String relHref = link.attr("href"); // == "/"
-            String absHref = link.attr("abs:href"); // "http://www.open-open.com/"
-            System.out.println(relHref);
-            System.out.println(absHref);
-
-
-
-            String unsafe =
-                    "<p><a href='http://example.com/' onclick='stealCookies()'>Link</a></p>";
-            String safe = Jsoup.clean(unsafe, Whitelist.basic());
-            System.out.println(safe);
+            doc = conn.timeout(10000).get();
+            System.out.println(doc.html());
         } catch (IOException e) {
             e.printStackTrace();
         }

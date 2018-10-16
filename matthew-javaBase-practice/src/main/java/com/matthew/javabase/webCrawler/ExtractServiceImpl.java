@@ -32,6 +32,9 @@ public class ExtractServiceImpl implements ExtractService {
         int type = rule.getType();
         int requestType = rule.getRequestMethod();
         Connection conn = Jsoup.connect(url);
+        conn.header(
+                "User-Agent",
+                "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
         //设置查询参数查询
 
         if(params != null){

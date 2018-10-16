@@ -11,7 +11,7 @@ import org.springframework.beans.factory.*;
 public class Car implements BeanFactoryAware,BeanNameAware,InitializingBean,DisposableBean{
 
     private String brand;
-    private String color;
+    private String color = "green";
     private int maxSpeed;
     private String iDCode;
 
