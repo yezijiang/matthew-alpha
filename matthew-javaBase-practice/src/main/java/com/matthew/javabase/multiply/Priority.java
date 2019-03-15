@@ -48,6 +48,7 @@ public class Priority {
             while(notStart){
                 Thread.yield();
             }
+            System.out.println("start");
             while(notEnd){
                 Thread.yield();
                 jobCount++;

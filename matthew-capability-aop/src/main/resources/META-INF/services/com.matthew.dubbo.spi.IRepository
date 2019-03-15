@@ -1,0 +1,2 @@
+com.matthew.dubbo.spi.MongoRepository
+com.matthew.dubbo.spi.MysqlRepository

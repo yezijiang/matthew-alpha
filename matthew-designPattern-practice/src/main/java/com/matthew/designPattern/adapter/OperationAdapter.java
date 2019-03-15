@@ -15,12 +15,10 @@ public class OperationAdapter implements  ScoreOperation{
         searchObj = new BinarySearch();
     }
 
-    @Override
     public int[] sort(int[] array) {
         return sortObj.quickSork(array);
     }
 
-    @Override
     public int search(int[] array, int key) {
         return searchObj.binarySearch(array,key);
     }

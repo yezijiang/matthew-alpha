@@ -18,6 +18,7 @@ public class Mutex implements Lock {
         @Override
         protected boolean tryAcquire(int arg) {
             if(compareAndSetState(0,1)){
+                System.out.println(arg);
                 setExclusiveOwnerThread(Thread.currentThread());
                 return true;
             }
@@ -28,6 +29,8 @@ public class Mutex implements Lock {
         protected boolean tryRelease(int arg) {
             if(getState() == 0)
                 throw new IllegalMonitorStateException();
+
+            System.out.println(arg);
             setExclusiveOwnerThread(null);
             setState(0);
             return true;
@@ -76,11 +79,12 @@ public class Mutex implements Lock {
         return sync.hasQueuedThreads();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         final Mutex mutex = new Mutex();
         Thread thread1 = new Thread(new Runnable() {
             @Override
             public void run() {
+                System.out.println(Thread.currentThread().toString());
                 mutex.lock();
                 System.out.println("拿到了锁");
             }
@@ -88,9 +92,14 @@ public class Mutex implements Lock {
         Thread thread2 = new Thread(new Runnable() {
             @Override
             public void run() {
+                System.out.println(Thread.currentThread().toString());
                 mutex.lock();
             }
         });
+        thread2.start();
+        Thread.currentThread().sleep(1000l);
+        thread1.start();
+
     }
 }
 

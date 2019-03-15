@@ -7,6 +7,6 @@ package com.matthew.designPattern.adapter;
  * TIME: 2016-10-18 11:52
  */
 public interface ScoreOperation {
-    public int[] sort(int array[]);//成绩排序
-    public int search(int array[],int key); //成绩查找
+    int[] sort(int array[]);//成绩排序
+    int search(int array[],int key); //成绩查找
 }

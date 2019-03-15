@@ -96,7 +96,18 @@
             <artifactId>mybatis-paginator</artifactId>
             <version>${mybatis-paginator.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
 
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.7.0</version>
+        </dependency>
     </dependencies>
     <build>
         <finalName>matthew-spring-practice</finalName>

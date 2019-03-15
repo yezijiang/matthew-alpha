@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor" />
+	<!-- 注册一个BeanPostProcessor -->
+	<bean id="postProcessor" class="com.matthew.spring.beanPost.PostProcessor"/>
+	<!-- 注册一个BeanFactoryPostProcessor -->
+	<bean id="factoryPostProcessor" class="com.matthew.spring.beanPost.FactoryPostProcesser"/>
+	<!-- 普通bean -->
+	<bean id="beanFactoryPostProcessorTest" class="com.matthew.spring.beanPost.BeanFactoryPostProcessorTest">
+		<property name="name" value="张三"/>
+		<property name="sex" value="男"/>
+	</bean>
+</beans>

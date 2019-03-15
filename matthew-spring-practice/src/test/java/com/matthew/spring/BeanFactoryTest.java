@@ -1,5 +1,6 @@
 package com.matthew.spring;
 
+import com.google.common.base.Preconditions;
 import com.matthew.spring.chapter2.Car;
 import org.junit.Test;
 import org.springframework.beans.factory.BeanFactory;
@@ -20,7 +21,8 @@ public class BeanFactoryTest {
         BeanFactory beanFactory = new XmlBeanFactory(new ClassPathResource("conf/beanFactoryTest.xml"));
         Car car  = (Car) beanFactory.getBean("car");
         System.out.println(car.getColor());
-        assertEquals("this value is not what we expected.","green",car.getColor());
+        //assertEquals("this value is not what we expected.","green1",car.getColor());
+        Preconditions.checkArgument("green1".equals(car.getColor()),"this value is not what we expected!");
 
     }
 }
