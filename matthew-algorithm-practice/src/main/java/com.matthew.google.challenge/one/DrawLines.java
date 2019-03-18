@@ -1,4 +1,4 @@
-package com.matthew.google.challenge;
+package com.matthew.google.challenge.one;
 
 /**
  * google编程挑战赛
