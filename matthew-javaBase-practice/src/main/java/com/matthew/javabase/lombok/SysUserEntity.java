@@ -20,4 +20,10 @@ public class SysUserEntity {
     private String userName;
     private int age;
     private String sex;
+
+    public static void main(String[] args) {
+        SysUserEntity userEntity = new SysUserEntity();
+        userEntity.setAge(11);
+        System.out.println(userEntity.age);
+    }
 }

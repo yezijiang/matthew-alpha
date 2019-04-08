@@ -32,6 +32,14 @@ public class ConcurrentHashMapTest {
         concurrentMap.put("age15","15");
         concurrentMap.put("age16","15");
 
+        int a=10;
+        if(a>5){
+          a=3;
+          System.out.println(a);
+        }else if(a<5){
+          System.out.println("多次判断输出");
+        }
+
     }
   public void multiThreadTest(){
     Thread threadOne = new Thread(new Runnable() {
@@ -54,5 +62,6 @@ public class ConcurrentHashMapTest {
     threadTwo.start();
     System.out.println("打印开始");
   }
+
 
 }

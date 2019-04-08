@@ -21,6 +21,7 @@ public class ReflectDemo {
 
         //
         Method introduce = clazz.getDeclaredMethod("introduce");
+
         introduce.invoke(myNewCar);
         //
         Field[] allFields = clazz.getDeclaredFields();
