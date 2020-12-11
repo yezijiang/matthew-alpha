@@ -19,7 +19,7 @@
         <module>matthew-search-practice</module>
     </modules>
     <properties>
-        <junit.version>4.11</junit.version>
+        <junit.version>4.13.1</junit.version>
     </properties>
     <dependencies>
         <dependency>
