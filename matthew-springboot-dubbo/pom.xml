@@ -22,7 +22,7 @@
     <properties>
         <java.version>1.8</java.version>
         <!-- zookeeper-->
-        <zookeeper.veriosn>3.4.5</zookeeper.veriosn>
+        <zookeeper.veriosn>3.4.14</zookeeper.veriosn>
         <zookeeper.client.version>0.3</zookeeper.client.version>
     </properties>
 
