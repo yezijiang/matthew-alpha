@@ -17,7 +17,7 @@
     <properties>
         <spring.version>4.2.1.RELEASE</spring.version>
         <!-- MyBatis -->
-        <mybatis.version>3.3.0</mybatis.version>
+        <mybatis.version>3.5.6</mybatis.version>
         <mybatis-spring.version>1.2.3</mybatis-spring.version>
         <mybatis-paginator.version>1.2.17</mybatis-paginator.version>
     </properties>
