@@ -12,7 +12,7 @@
     <name>matthew-changpu Maven Webapp</name>
     <url>http://maven.apache.org</url>
     <properties>
-        <spring.version>4.2.1.RELEASE</spring.version>
+        <spring.version>5.2.22.RELEASE</spring.version>
         <mysql.connector.version>5.1.26</mysql.connector.version>
         <aspectj.version>1.7.4</aspectj.version>
     </properties>
