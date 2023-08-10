@@ -1,4 +1,4 @@
-package com.matthew.javabase.stream;
+package com.matthew.javabase.java8.stream;
 
 import java.math.BigDecimal;
 import java.util.Date;

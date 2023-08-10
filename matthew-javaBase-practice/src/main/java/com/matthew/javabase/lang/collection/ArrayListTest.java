@@ -17,6 +17,10 @@ import java.util.stream.Collectors;
  */
 public class ArrayListTest {
     public static void main(String[] args) {
+        List<String> list = new ArrayList<>(Arrays.asList("1","2","3","4","5","6"));
+
+    }
+    public void test1(){
         //错误用法，如果
         List<String> list = new ArrayList<>(Arrays.asList("a","a","a","c","d","e"));
         for (String a:list) {

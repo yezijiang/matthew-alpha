@@ -1,4 +1,4 @@
-package com.matthew.javabase.stream;
+package com.matthew.javabase.java8.stream;
 
 import lombok.Getter;
 import lombok.Setter;

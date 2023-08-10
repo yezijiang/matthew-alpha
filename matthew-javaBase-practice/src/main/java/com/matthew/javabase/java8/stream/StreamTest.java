@@ -1,7 +1,6 @@
-package com.matthew.javabase.stream;
+package com.matthew.javabase.java8.stream;
 
 import org.junit.Test;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 import java.util.Arrays;
 import java.util.List;
